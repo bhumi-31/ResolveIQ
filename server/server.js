@@ -1,23 +1,28 @@
 const dotenv = require('dotenv')
+
+//load env variables
+dotenv.config()
+
 const express = require('express');
 const cors = require('cors');
 const pool = require('./config/db');
 
-//load env variables
-dotenv.config()
 
 //create express app
 const app = express();
 
 //add cors
 app.use(cors({
-    origin : '*',
+    origin : process.env.CLIENT_URL,
     credentials : true
 }))
 
 // middleware
 app.use(express.json());
 app.use(express.urlencoded({extended : true}));
+
+const authRoutes = require('./routes/auth.routes');
+app.use('/api/auth', authRoutes);
 
 //test route
 
