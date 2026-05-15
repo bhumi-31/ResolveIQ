@@ -1,0 +1,21 @@
+const express = require('express');
+const router = express.Router();
+const {protect, restrictTo} = require('../middleware/auth');
+const { createTicket, readTickets, readOneTicket, updateTickets, deleteTicket } = require('../controllers/ticket.controller');
+
+// only logged in users
+router.post('/', protect, createTicket);
+
+//read tickets
+router.get('/', protect, restrictTo('user', 'agent', 'admin'), readTickets);
+
+//read only specific ticket
+router.get('/:id', protect, restrictTo('user', 'agent', 'admin'), readOneTicket);
+
+//update the ticket
+router.patch('/:id', protect, restrictTo('admin', 'agent'), updateTickets);
+
+//delete the ticket
+router.delete('/:id', protect, restrictTo('admin'), deleteTicket);
+
+module.exports = router;

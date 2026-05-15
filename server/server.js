@@ -5,6 +5,7 @@ dotenv.config()
 
 const express = require('express');
 const cors = require('cors');
+const OpenAI = require('openai');
 const pool = require('./config/db');
 
 
@@ -22,7 +23,10 @@ app.use(express.json());
 app.use(express.urlencoded({extended : true}));
 
 const authRoutes = require('./routes/auth.routes');
-app.use('/api/auth', authRoutes);
+const ticketRoutes = require('./routes/ticket.routes');
+
+app.use('/auth', authRoutes);
+app.use('/tickets', ticketRoutes);
 
 //test route
 
