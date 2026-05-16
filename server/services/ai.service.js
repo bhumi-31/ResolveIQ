@@ -11,7 +11,7 @@ const triageTicket = async(title , description) => {
             role: 'system',
             content: `You are an IT helpdesk AI. Analyze the ticket and respond ONLY in JSON format:
             {
-                "category": "hardware|software|network|hr|other",
+                "category": "bug|feature_request|billing|account|integration|other",
                 "ai_suggestion": "2-3 sentence actionable resolution suggestion"
             }`
         },
