@@ -24,13 +24,11 @@ app.use(express.json());
 app.use(express.urlencoded({extended : true}));
 
 const authRoutes = require('./routes/auth.routes');
-const ticketRoutes = require('./routes/ticket.routes');
 const { socketHandler } = require('./socket/socketHandler');
 const server = http.createServer(app);
 
 
 app.use('/auth', authRoutes);
-app.use('/tickets', ticketRoutes);
 //test route
 
 app.get('/', (req, res) => {
@@ -49,7 +47,13 @@ const messageController = require('./controllers/message.controller');
 const { getMessage, sendMessage } = messageController(io);
 const messageRoutes = require('./routes/message.routes')(getMessage, sendMessage);
 
+const ticketController = require('./controllers/ticket.controller');
+const { createTicket, readTickets, readOneTicket, updateTickets, deleteTicket } = ticketController(io);
+const ticketRoutes = require('./routes/ticket.routes')(createTicket, readTickets, readOneTicket, updateTickets, deleteTicket);
+
+
 // 3. THEN mount routes
+app.use('/tickets', ticketRoutes);
 app.use('/messages', messageRoutes);
 
 socketHandler(io);
