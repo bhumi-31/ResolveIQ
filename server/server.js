@@ -8,6 +8,9 @@ const cors = require('cors');
 const pool = require('./config/db');
 const http = require('http');
 const {Server} = require('socket.io');
+const helmet = require('helmet');
+const morgan = require('morgan');
+const rateLimit = require('express-rate-limit');
 
 
 //create express app
@@ -19,9 +22,25 @@ app.use(cors({
     credentials : true
 }))
 
+
 // middleware
 app.use(express.json());
 app.use(express.urlencoded({extended : true}));
+
+// security headers
+app.use(helmet());
+
+// request logging
+app.use(morgan('dev'));
+
+
+//rate limiting
+const limiter = rateLimit({
+    windowMs : 15 * 60 * 1000,
+    max : 100
+});
+
+app.use(limiter);
 
 const authRoutes = require('./routes/auth.routes');
 const { socketHandler } = require('./socket/socketHandler');
