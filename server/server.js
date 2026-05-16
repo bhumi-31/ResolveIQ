@@ -54,6 +54,10 @@ app.use('/messages', messageRoutes);
 
 socketHandler(io);
 
+const { startSLACron } = require('./services/sla.service');
+
+startSLACron(io);
+
 const PORT = process.env.PORT || 8000;
 
 server.listen(PORT, () => {
