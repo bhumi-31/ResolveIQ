@@ -111,4 +111,15 @@ const getMe = async (req, res) => {
     }
 }
 
-module.exports = { registerUser, loginUser, getMe  };
+const getAgents = async (req, res) => {
+    try {
+        const result = await pool.query(
+            "SELECT id, name, email FROM users WHERE role = 'agent'"
+        );
+        res.status(200).json({ agents: result.rows });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+module.exports = { registerUser, loginUser, getMe, getAgents  };
