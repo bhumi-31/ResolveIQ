@@ -98,4 +98,17 @@ const loginUser = async(req, res) => {
     }
 }
 
-module.exports = { registerUser, loginUser };
+
+const getMe = async (req, res) => {
+    try {
+        const result = await pool.query(
+            'SELECT id, name, email, role, department, is_active FROM users WHERE id = $1',
+            [req.user.id]
+        );
+        res.status(200).json({ user: result.rows[0] });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+module.exports = { registerUser, loginUser, getMe  };
