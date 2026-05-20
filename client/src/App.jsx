@@ -28,7 +28,7 @@ function App(){
               </ProtectedRoute>
             }/>
 
-            <Route path = "/user/Ccreate-ticket" element = {
+            <Route path = "/user/Create-ticket" element = {
               <ProtectedRoute allowedRoles={['user']}>
                 <CreateTicket/>
               </ProtectedRoute>
