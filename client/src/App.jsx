@@ -1,7 +1,7 @@
-import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
-import {AuthProvider} from './context/AuthContext';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
 import { SocketProvider } from './context/SocketContext';
-import ProtectedRoute  from './components/ProtectedRoute';
+import ProtectedRoute from './components/ProtectedRoute';
 
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -10,29 +10,31 @@ import CreateTicket from './pages/user/CreateTicket';
 import AgentDashboard from './pages/agent/AgentDashboard';
 import AdminDashboard from './pages/admin/AdminDashboard';
 
-function App(){
-  return(
+import TicketDetail from './pages/TicketDetail';
+
+function App() {
+  return (
     <BrowserRouter>
-       <AuthProvider>
+      <AuthProvider>
         <SocketProvider>
           <Routes>
             {/* public route */}
-            <Route path = "/login" element = {<Login/>}/>
-            <Route path = "/register" element = {<Register/>}/>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
 
 
             {/* user Routes */}
-            <Route path = "/user/dashboard" element = {
+            <Route path="/user/dashboard" element={
               <ProtectedRoute allowedRoles={['user']}>
-                <UserDashboard/>
+                <UserDashboard />
               </ProtectedRoute>
-            }/>
+            } />
 
-            <Route path = "/user/Create-ticket" element = {
+            <Route path="/user/Create-ticket" element={
               <ProtectedRoute allowedRoles={['user']}>
-                <CreateTicket/>
+                <CreateTicket />
               </ProtectedRoute>
-            }/>
+            } />
 
             {/* agent routes */}
 
@@ -49,11 +51,18 @@ function App(){
               </ProtectedRoute>
             } />
 
+
+            <Route path="/ticket/:id" element={
+              <ProtectedRoute allowedRoles={['user', 'agent', 'admin']}>
+                <TicketDetail />
+              </ProtectedRoute>
+            } />
+
             {/* default redirect */}
             <Route path="/" element={<Navigate to="/login" />} />
           </Routes>
         </SocketProvider>
-       </AuthProvider>
+      </AuthProvider>
     </BrowserRouter>
   )
 }

@@ -93,7 +93,9 @@ const AgentDashBoard = () => {
                 ) : (
                     <div className="space-y-4">
                         {tickets.map(ticket => (
-                            <div key={ticket.id} className="bg-gray-900 rounded-xl p-5 border border-gray-800">
+                            <div key={ticket.id} 
+                            onClick={() => navigate(`/ticket/${ticket.id}`)}
+                            className="bg-gray-900 rounded-xl p-5 border border-gray-800">
                                 <div className="flex justify-between items-start mb-2">
                                     <h3 className="font-medium text-white">{ticket.title}</h3>
                                     <select

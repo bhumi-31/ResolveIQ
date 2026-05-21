@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useAsyncError, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import api from '../../services/api';
 
@@ -113,7 +113,9 @@ const UserDashBoard = () => {
                 ) : (
                     <div className="space-y-3">
                         {tickets.map(ticket => (
-                            <div key={ticket.id} className="bg-gray-900 rounded-xl p-5 border border-gray-800 hover:border-gray-700 transition cursor-pointer">
+                            <div key={ticket.id} 
+                            onClick={() => navigate(`/ticket/${ticket.id}`)}
+                            className="bg-gray-900 rounded-xl p-5 border border-gray-800 hover:border-gray-700 transition cursor-pointer">
                                 <div className="flex justify-between items-start mb-2">
                                     <h3 className="font-medium text-white">{ticket.title}</h3>
                                     <span className={`text-xs px-2.5 py-1 rounded-full ${getStatusColor(ticket.status)}`}>
