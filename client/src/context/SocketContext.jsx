@@ -10,7 +10,7 @@ export const SocketProvider = ({children}) =>{
 
     useEffect(() => {
         if(token)  {
-            const newSocket = io('http://localhost:8000', {
+            const newSocket = io('http://13.206.95.131:8000', {
                 auth : {token}
             });
             setSocket(newSocket);
