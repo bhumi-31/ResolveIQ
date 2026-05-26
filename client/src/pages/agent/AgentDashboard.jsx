@@ -100,7 +100,9 @@ const AgentDashBoard = () => {
                                     <h3 className="font-medium text-white">{ticket.title}</h3>
                                     <select
                                         value={ticket.status}
-                                        onChange={(e) => updateStatus(ticket.id, e.target.value)}
+                                        onChange={(e) => {
+                                            e.stopPropagation();
+                                        updateStatus(ticket.id, e.target.value)}}
                                         className="text-xs bg-gray-800 border border-gray-700 text-white rounded-lg px-3 py-1.5 focus:outline-none focus:border-violet-500"
                                     >
                                         <option value="assigned">Assigned</option>
