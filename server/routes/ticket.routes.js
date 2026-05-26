@@ -1,6 +1,7 @@
 const express = require('express');
 
 const {protect, restrictTo} = require('../middleware/auth');
+// const { upload } = require('../middleware/upload');
 // const { createTicket, readTickets, readOneTicket, updateTickets, deleteTicket } = require('../controllers/ticket.controller');
 
 const ticketRoutes = (createTicket, readTickets, readOneTicket, updateTickets, deleteTicket) => {
@@ -19,6 +20,10 @@ const ticketRoutes = (createTicket, readTickets, readOneTicket, updateTickets, d
     
     //delete the ticket
     router.delete('/:id', protect, restrictTo('admin'), deleteTicket);
+
+    router.post('/', protect, upload.single('attachment'), createTicket);
+
+    // router.get('/:id/attachment', protect, getAttachment);
 
     return router;
 }

@@ -1,5 +1,6 @@
 const pool = require('../config/db');
 const { triageTicket } = require('../services/ai.service');
+// const { getPresignedUrl } = require('../config/s3');
 
 const ticketController = (io) => {
 
@@ -19,11 +20,14 @@ const ticketController = (io) => {
 
             // 4. AI triage
             const { category, ai_suggestion } = await triageTicket(title, description);
+            //file upload
+            // const attachment_key = req.file ? req.file.key : null;
+
 
             // 5. insert into database
             const result = await pool.query(
                 `INSERT INTO tickets(title, description, priority, created_by, category, ai_suggestion, sla_deadline)
-                VALUES($1, $2, $3, $4, $5, $6, $7)
+                VALUES($1, $2, $3, $4, $5, $6, $7, $8)
                 RETURNING *`,
                 [title, description, priority, created_by, category, ai_suggestion, sla_deadline]
             );
@@ -214,7 +218,30 @@ const ticketController = (io) => {
             });
         }
     }
-    return { createTicket, readTickets, readOneTicket, updateTickets, deleteTicket };
+
+    const getAttachment = async (req, res) => {
+        try {
+            const { id } = req.params;
+            const result = await pool.query(
+                'SELECT attachment_key FROM tickets WHERE id = $1',
+                [id]
+            );
+
+            if (!result.rows[0] || !result.rows[0].attachment_key) {
+                return res.status(404).json({ message: 'No attachment found' });
+            }
+
+            const url = await getPresignedUrl(result.rows[0].attachment_key);
+            res.status(200).json({ url });
+
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    };
+
+
+
+    return { createTicket, readTickets, readOneTicket, updateTickets, deleteTicket, getAttachment };
 }
 
 
