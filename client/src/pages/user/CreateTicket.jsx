@@ -21,7 +21,7 @@ const CreateTicket = () => {
             formData.append('title', title);
             formData.append('description', description);
             formData.append('priority', priority);
-            if (file) formData.append('attachment', file);
+            // if (file) formData.append('attachment', file);
 
             await api.post('/tickets', { title, description, priority });
             navigate('/user/dashboard');
@@ -93,7 +93,7 @@ const CreateTicket = () => {
                         </select>
                     </div>
 
-                    <div>
+                    {/* <div>
                         <label className="block text-sm text-gray-400 mb-1.5">
                             Attachment <span className="text-gray-500">(optional)</span>
                         </label>
@@ -103,7 +103,7 @@ const CreateTicket = () => {
                             accept=".jpg,.jpeg,.png,.pdf,.txt,.docx"
                             className="w-full bg-gray-800 text-gray-400 border border-gray-700 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-violet-500 transition file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-sm file:bg-violet-600 file:text-white"
                         />
-                    </div>
+                    </div> */}
 
                     <button
                         type="submit"
